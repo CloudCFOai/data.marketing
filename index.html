@@ -1,0 +1,946 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CloudCFO.ai — Data‑Driven Marketing & Sales Plan (Interactive, 24‑Month v8)</title>
+<meta name="description" content="Self-contained interactive plan with calculators, 24‑month scenarios, and downloadable outputs.">
+<style>
+:root{
+  --bg:#0b1020;
+  --panel:#121936;
+  --panel-2:#0f1530;
+  --ink:#e9ecf1;
+  --muted:#b6bed3;
+  --brand:#6ee7ff;
+  --accent:#8b5cf6;
+  --good:#10b981;
+  --warn:#f59e0b;
+  --bad:#ef4444;
+  --border:rgba(255,255,255,0.08);
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);font:16px/1.5 system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Helvetica,Arial,"Apple Color Emoji","Segoe UI Emoji"}
+a{color:var(--brand);text-decoration:none}
+a:hover{text-decoration:underline}
+h1,h2,h3{margin:0 0 .35rem 0;line-height:1.2}
+h1{font-size:1.6rem}
+h2{font-size:1.25rem;color:#f1f4ff}
+h3{font-size:1.05rem;color:#f1f4ff}
+small{color:var(--muted)}
+.container{max-width:1200px;margin:0 auto;padding:20px}
+.header{position:sticky;top:0;z-index:10;background:linear-gradient(180deg,rgba(11,16,32,0.95),rgba(11,16,32,0.85));backdrop-filter:blur(6px);border-bottom:1px solid var(--border)}
+.header .inner{display:flex;gap:16px;align-items:center;justify-content:space-between;padding:10px 20px}
+.brand{display:flex;align-items:center;gap:12px}
+.logo{width:36px;height:36px;border-radius:9px;background:linear-gradient(135deg,var(--brand),var(--accent));box-shadow:0 0 0 2px rgba(255,255,255,0.07) inset}
+.nav{display:flex;gap:10px;flex-wrap:wrap}
+.nav a{display:inline-block;padding:8px 10px;border:1px solid var(--border);border-radius:8px;background:var(--panel-2);font-size:.9rem}
+.grid{display:grid;gap:14px}
+.grid.cols-2{grid-template-columns:1fr 1fr}
+.grid.cols-3{grid-template-columns:repeat(3,1fr)}
+.grid.cols-4{grid-template-columns:repeat(4,1fr)}
+@media (max-width:980px){.grid.cols-2,.grid.cols-3,.grid.cols-4{grid-template-columns:1fr}}
+.card{background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:16px;box-shadow:0 6px 16px rgba(0,0,0,0.25)}
+.card h2{margin-bottom:.5rem}
+.card p{margin:.3rem 0}
+.kpi{display:flex;align-items:center;gap:10px;padding:10px;border-radius:10px;background:var(--panel-2);border:1px solid var(--border)}
+.kpi .v{font-size:1.25rem;font-weight:700}
+.tag{display:inline-flex;align-items:center;gap:6px;border-radius:999px;background:var(--panel-2);padding:6px 10px;border:1px solid var(--border);font-size:.85rem}
+hr{border:0;border-top:1px solid var(--border);margin:16px 0}
+label{display:block;font-size:.85rem;color:var(--muted)}
+input[type=number],input[type=text],select,textarea{
+  width:100%;padding:10px;border-radius:10px;border:1px solid var(--border);
+  background:var(--panel-2);color:var(--ink);outline:none;
+}
+input[type=checkbox]{transform:scale(1.1)}
+.row{display:flex;gap:10px;align-items:center}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:10px 12px;border-radius:10px;border:1px solid var(--border);background:var(--panel-2);color:var(--ink);cursor:pointer}
+.btn.primary{background:linear-gradient(135deg,var(--brand),var(--accent));color:#0b1020;font-weight:700;border-color:transparent}
+.btn.good{background:var(--good);color:#081414;border-color:transparent}
+.btn.warn{background:var(--warn);color:#0a0a0a;border-color:transparent}
+.btn.bad{background:var(--bad);color:#0a0a0a;border-color:transparent}
+.btn:disabled{opacity:.6;cursor:not-allowed}
+table{width:100%;border-collapse:separate;border-spacing:0;margin-top:8px}
+th,td{padding:10px;border-bottom:1px solid var(--border);text-align:right;white-space:nowrap}
+th{background:var(--panel-2);text-align:right;color:var(--muted);font-weight:600;position:sticky;top:0}
+td:first-child,th:first-child{text-align:left}
+tfoot td{font-weight:700}
+code,pre{background:var(--panel-2);border:1px solid var(--border);border-radius:10px;padding:10px;display:block;overflow:auto}
+details{background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:12px}
+details summary{cursor:pointer;font-weight:700;margin:-12px -12px 12px -12px;padding:12px;border-bottom:1px solid var(--border);list-style:none}
+.summary-note{color:var(--muted);font-size:.9rem}
+.progress{height:8px;background:#1f294d;border-radius:999px;overflow:hidden}
+.progress>i{display:block;height:100%;background:linear-gradient(90deg,var(--good),#46d3ec);width:0%}
+.badge{padding:3px 8px;border-radius:999px;border:1px solid var(--border);font-size:.75rem;background:var(--panel-2);color:var(--muted)}
+.flex{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.copy{cursor:pointer;border-bottom:1px dashed var(--border)}
+.footer{opacity:.75;padding:30px 0;text-align:center;color:var(--muted)}
+kbd{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;background:#111826;border:1px solid var(--border);border-bottom-width:3px;border-radius:6px;padding:2px 6px}
+.alert{padding:12px;border-radius:10px;border:1px solid var(--border);background:var(--panel-2)}
+.alert.good{border-color:rgba(16,185,129,.3)}
+.alert.warn{border-color:rgba(245,158,11,.3)}
+.alert.bad{border-color:rgba(239,68,68,.3)}
+ul{margin:.25rem 0 .75rem 1.25rem}
+.help{color:var(--muted);font-size:.9rem}
+.separator{height:1px;background:var(--border);margin:10px 0}
+.sticky-actions{position:sticky;bottom:0;background:linear-gradient(180deg,rgba(11,16,32,0),rgba(11,16,32,0.95) 20%);padding:14px 0 4px 0}
+small.note{display:block;color:var(--muted);margin-top:6px}
+.stat{display:flex;gap:8px;align-items:center}
+.stat b{font-size:1.1rem}
+</style>
+</head>
+<body>
+<header class="header">
+  <div class="inner">
+    <div class="brand">
+      <div class="logo"></div>
+      <div>
+        <div style="font-weight:800">CloudCFO.ai</div>
+        <small class="muted">Data‑Driven Marketing & Sales Plan — Interactive (24‑Month v8)</small>
+      </div>
+    </div>
+    <nav class="nav">
+      <a href="#summary">Summary</a>
+      <a href="#exec">Executive Summary</a>
+      <a href="#inputs">Inputs</a>
+      <a href="#budgets">Budgets & Scenarios</a>
+      <a href="#blueprint">Campaign Blueprint</a>
+      <a href="#cro">CRO</a>
+      <a href="#automation">Automation</a>
+      <a href="#measurement">Measurement</a>
+      <a href="#ramp">90‑Day Ramp</a>
+      <a href="#competitors">Conquest</a>
+      <a href="#expansion">Geo & Partnerships</a>
+      <a href="#quickwins">Quick Wins</a>
+    </nav>
+  </div>
+</header>
+
+<main class="container">
+
+  <div class="grid cols-3">
+    <div class="card">
+      <h2>Goals</h2>
+      <div class="kpi"><div class="v" id="kpiUsers">10,000</div><div>Users (24‑mo)</div></div>
+      <div class="kpi"><div class="v" id="kpiARR">$5.5M</div><div>ARR Target</div></div>
+      <div class="kpi"><div class="v" id="kpiBudget">$20,000</div><div>Initial Budget</div></div>
+    </div>
+    <div class="card">
+      <h2>Status</h2>
+      <p class="help">Defaults updated per your request: reinvestment = <b>% of prior month revenues (MRR EOM)</b> with a <b>$40,000/mo cap</b> starting Month 4; percent is editable (Scenario A/B). Other defaults retained.</p>
+      <div class="grid cols-2">
+        <div><label>Initial Cash Budget</label><input type="number" id="initialBudget" value="20000" min="0" step="100"></div>
+        <div><label>Mobile Share (%)</label><input type="number" id="mobileShare" value="85" min="0" max="100"></div>
+        <div><label>Carbon Add‑on Adoption (%)</label><input type="number" id="carbonAdopt" value="40" min="0" max="100"></div>
+        <div><label>Gross Margin (%)</label><input type="number" id="grossMargin" value="85" min="0" max="100"></div>
+      </div>
+      <small class="note">Guardrails: LTV:CAC ≥ 3:1; CAC ≤ 50% of segment LTV; Payback &lt; 6 months.</small>
+    </div>
+    <div class="card">
+      <h2>Actions</h2>
+      <div class="flex">
+        <button class="btn primary" onclick="recalc()">Recalculate</button>
+        <button class="btn" onclick="resetDefaults()">Restore Defaults</button>
+        <button class="btn" onclick="window.print()">Print / Save PDF</button>
+        <button class="btn" onclick="downloadCSV()">Download CSV</button>
+        <button class="btn" onclick="downloadConfig()">Export Config JSON</button>
+      </div>
+      <small class="note">All logic runs locally. No external libraries or network calls.</small>
+    </div>
+  </div>
+
+  <section id="summary" class="card">
+    <h2>Plan Summary (auto‑generated)</h2>
+    <div id="summaryText" class="help">Loading summary…</div>
+  </section>
+
+  <section id="exec" class="card">
+    <h2>Executive Summary</h2>
+    <p>
+      This interactive plan translates CloudCFO.ai’s growth into a <b>24‑month</b> budgeted system.
+      Reinvestment from Month 4 onward is now: <b>Spend = min($40,000, r × prior month revenue)</b>,
+      where revenue is <b>MRR at end of month</b>. The percent <b>r</b> is editable (defaults A=40%, B=50%).
+      Base spend (M1–M3) still consumes the initial cash pool; reinvest spend is self‑funded.
+      The monthly table shows <b>$ Users</b> (paid‑media only), <b>npUsers</b> (non‑paid only),
+      <b>Users YTD</b> (all‑sources cumulative), <b>pARR</b>, <b>pLTV</b>, <b>Cash 2</b>, and <b>Cash Left</b>.
+    </p>
+    <div class="grid cols-3">
+      <div class="alert" id="sumFeasibility"><b>Feasibility:</b> <span id="sumFeasibilityText">Pending</span></div>
+      <div class="alert" id="sumCAC"><b>CAC vs LTV:</b> <span id="sumCACText">Pending</span></div>
+      <div class="alert" id="sumPayback"><b>Payback:</b> <span id="sumPaybackText">Pending</span></div>
+    </div>
+    <div class="separator"></div>
+    <div class="grid cols-3">
+      <div class="kpi"><div class="v" id="projUsers">–</div><div>Projected Users in 24 months</div></div>
+      <div class="kpi"><div class="v" id="projARR">–</div><div>Projected ARR</div></div>
+      <div class="kpi"><div class="v" id="projCAC">–</div><div>Blended CAC</div></div>
+    </div>
+    <small class="note">Base schedule: $10k (M1), $6k (M2), $4k (M3). From M4: cap $40k and % of prior month revenue.</small>
+  </section>
+
+  <section id="inputs" class="card">
+    <h2>Core Inputs</h2>
+    <details open>
+      <summary>Segments, LTV & ARPU (updated)</summary>
+      <div class="grid cols-4">
+        <div><label>Freelancers — Mix (%)</label><input type="number" id="segMixF" value="40" min="0" max="100"></div>
+        <div><label>SMB — Mix (%)</label><input type="number" id="segMixS" value="35" min="0" max="100"></div>
+        <div><label>E‑commerce — Mix (%)</label><input type="number" id="segMixE" value="20" min="0" max="100"></div>
+        <div><label>Bookkeepers — Mix (%)</label><input type="number" id="segMixB" value="5" min="0" max="100"></div>
+
+        <div><label>LTV Freelancers ($/yr)</label><input type="number" id="ltvF" value="300" min="1" step="1"></div>
+        <div><label>LTV SMB ($/yr)</label><input type="number" id="ltvS" value="714" min="1" step="1"></div>
+        <div><label>LTV E‑commerce ($/yr)</label><input type="number" id="ltvE" value="900" min="1" step="1"></div>
+        <div><label>LTV Bookkeepers ($/yr)</label><input type="number" id="ltvB" value="1788" min="1" step="1"></div>
+
+        <div><label>ARPU Freelancers ($/mo)</label><input type="number" id="arpuF" value="20" min="1" step="1"></div>
+        <div><label>ARPU SMB ($/mo)</label><input type="number" id="arpuS" value="42" min="1" step="0.1"></div>
+        <div><label>ARPU E‑commerce ($/mo)</label><input type="number" id="arpuE" value="52" min="1" step="1"></div>
+        <div><label>ARPU Bookkeepers ($/mo)</label><input type="number" id="arpuB" value="95" min="1" step="1"></div>
+
+        <div><label>Monthly churn Freelancers (%)</label><input type="number" id="churnF" value="8.0" min="0" step="0.1"></div>
+        <div><label>Monthly churn SMB (%)</label><input type="number" id="churnS" value="8.0" min="0" step="0.1"></div>
+        <div><label>Monthly churn E‑commerce (%)</label><input type="number" id="churnE" value="8.0" min="0" step="0.1"></div>
+        <div><label>Monthly churn Bookkeepers (%)</label><input type="number" id="churnB" value="8.0" min="0" step="0.1"></div>
+      </div>
+      <small class="note">Carbon add‑on adoption adds $20 × adoption% to ARPU.</small>
+    </details>
+
+    <details open>
+      <summary>Channels, CPC & Click→Trial (current values)</summary>
+      <div class="grid cols-4">
+        <div><label>Search — CPC ($)</label><input type="number" id="cpcSearch" value="6.4" min="0.1" step="0.1"></div>
+        <div><label>Search — Click→Trial (%)</label><input type="number" id="cvrSearch" value="6" min="0" max="100" step="0.1"></div>
+        <div><label>PMax — CPC ($)</label><input type="number" id="cpcPmax" value="4.0" min="0.1" step="0.1"></div>
+        <div><label>PMax — Click→Trial (%)</label><input type="number" id="cvrPmax" value="3.5" min="0" max="100" step="0.1"></div>
+
+        <div><label>Meta — CPC ($)</label><input type="number" id="cpcMeta" value="2.2" min="0.1" step="0.1"></div>
+        <div><label>Meta — Click→Trial (%)</label><input type="number" id="cvrMeta" value="2.5" min="0" max="100" step="0.1"></div>
+        <div><label>LinkedIn — CPC ($)</label><input type="number" id="cpcLinkedin" value="11.0" min="0.1" step="0.1"></div>
+        <div><label>LinkedIn — Click→Trial (%)</label><input type="number" id="cvrLinkedin" value="3.75" min="0" max="100" step="0.1"></div>
+
+        <div><label>YouTube — CPC ($)</label><input type="number" id="cpcYoutube" value="0.60" min="0.05" step="0.05"></div>
+        <div><label>YouTube — Click→Trial (%)</label><input type="number" id="cvrYoutube" value="1.0" min="0" max="100" step="0.1"></div>
+        <div><label>Display — CPC ($)</label><input type="number" id="cpcDisplay" value="1.00" min="0.05" step="0.05"></div>
+        <div><label>Display — Click→Trial (%)</label><input type="number" id="cvrDisplay" value="0.6" min="0" max="100" step="0.1"></div>
+
+        <div><label>Capterra/G2 — CPC ($)</label><input type="number" id="cpcReview" value="16" min="0.5" step="0.5"></div>
+        <div><label>Capterra/G2 — Click→Trial (%)</label><input type="number" id="cvrReview" value="8" min="0" max="100" step="0.1"></div>
+        <div><label>WhatsApp (Click‑to‑Chat) — CPC ($)</label><input type="number" id="cpcWA" value="1.8" min="0.1" step="0.1"></div>
+        <div><label>WhatsApp — Click→Trial (%)</label><input type="number" id="cvrWA" value="4.5" min="0" max="100" step="0.1"></div>
+      </div>
+      <small class="note">These CVRs are kept from your v7 defaults. Adjust per channel as needed.</small>
+    </details>
+
+    <details open>
+      <summary>Trial→Paid by Segment & Channel Effects</summary>
+      <div class="grid cols-4">
+        <div><label>Freelancers — Trial→Paid (%)</label><input type="number" id="tpF" value="25" min="0" max="100" step="0.5"></div>
+        <div><label>SMB — Trial→Paid (%)</label><input type="number" id="tpS" value="25" min="0" max="100" step="0.5"></div>
+        <div><label>E‑commerce — Trial→Paid (%)</label><input type="number" id="tpE" value="25" min="0" max="100" step="0.5"></div>
+        <div><label>Bookkeepers — Trial→Paid (%)</label><input type="number" id="tpB" value="25" min="0" max="100" step="0.5"></div>
+      </div>
+      <div class="grid cols-4">
+        <div><label>Channel boost — Search (%)</label><input type="number" id="boostSearch" value="0" step="1"></div>
+        <div><label>Channel boost — Review Sites (%)</label><input type="number" id="boostReview" value="0" step="1"></div>
+        <div><label>Channel boost — LinkedIn (%)</label><input type="number" id="boostLI" value="0" step="1"></div>
+        <div><label>Channel penalty — Meta/YouTube/Display (%)</label><input type="number" id="penaltySocial" value="0" step="1"></div>
+      </div>
+      <small class="note">Baseline Trial→Paid is 25% for all segments; use channel boosts/penalties to reflect traffic quality.</small>
+    </details>
+
+    <details open>
+      <summary>Portfolio Allocation & Schedules (24‑month)</summary>
+      <div class="grid cols-4">
+        <div><label>Search (%)</label><input type="number" id="allocSearch" value="35" min="0" max="100"></div>
+        <div><label>PMax (%)</label><input type="number" id="allocPmax" value="20" min="0" max="100"></div>
+        <div><label>Meta (%)</label><input type="number" id="allocMeta" value="12" min="0" max="100"></div>
+        <div><label>YouTube (%)</label><input type="number" id="allocYoutube" value="8" min="0" max="100"></div>
+        <div><label>LinkedIn (%)</label><input type="number" id="allocLinkedin" value="6" min="0" max="100"></div>
+        <div><label>Display (%)</label><input type="number" id="allocDisplay" value="4" min="0" max="100"></div>
+        <div><label>Capterra/G2 (%)</label><input type="number" id="allocReview" value="10" min="0" max="100"></div>
+        <div><label>WhatsApp (%)</label><input type="number" id="allocWA" value="5" min="0" max="100"></div>
+
+        <div><label>Base Spend Month 1 ($)</label><input type="number" id="baseM1" value="10000" min="0" step="100"></div>
+        <div><label>Base Spend Month 2 ($)</label><input type="number" id="baseM2" value="6000" min="0" step="100"></div>
+        <div><label>Base Spend Month 3 ($)</label><input type="number" id="baseM3" value="4000" min="0" step="100"></div>
+        <div><label>Base Spend Months 4‑24 ($/mo)</label><input type="number" id="baseM4_24" value="0" min="0" step="100"></div>
+      </div>
+      <div class="grid cols-3">
+        <div><label>Scenario A — Spend % of prior month revenue</label><input type="number" id="reA" value="40" min="0" max="100"></div>
+        <div><label>Scenario B — Spend % of prior month revenue</label><input type="number" id="reB" value="50" min="0" max="100"></div>
+        <div><label>Monthly Spend Cap ($)</label><input type="number" id="cap" value="40000" min="0" step="100"></div>
+      </div>
+      <small class="note">From Month 4: Spendₘ = Baseₘ + min(Cap, r × <b>Revenue</b>ₘ₋₁), where <b>Revenue</b>ₘ₋₁ = MRR EOM (prior month). Base spend consumes the initial cash; reinvest is self‑funded.</small>
+    </details>
+
+    <details open>
+      <summary>Non‑Paid Growth Loops</summary>
+      <div class="grid cols-4">
+        <div><label>Organic — Paid users in Month 1</label><input type="number" id="orgM1" value="30" min="0" step="1"></div>
+        <div><label>Organic — Monthly growth (%)</label><input type="number" id="orgGrowth" value="10" min="0" max="300" step="1"></div>
+        <div><label>Referrals — k factor (new paid per new paid last month)</label><input type="number" id="refK" value="3" min="0" max="100" step="0.1"></div>
+        <div><label>Partnerships — Paid in Month 3</label><input type="number" id="partnerM3" value="60" min="0" step="1"></div>
+        <div><label>Partnerships — Monthly ramp (%)</label><input type="number" id="partnerRamp" value="25" min="0" max="300" step="1"></div>
+      </div>
+      <small class="note">Non‑paid additions are distributed to segments using the segment mix.</small>
+    </details>
+  </section>
+
+  <section id="budgets" class="card">
+    <h2>Budgets & Scenarios</h2>
+    <div class="row" style="gap:8px;margin:8px 0">
+      <span class="tag"><input type="radio" name="scenario" value="A" checked onchange="recalc()"> Scenario A — Spend r% of prior month revenue</span>
+      <span class="tag"><input type="radio" name="scenario" value="B" onchange="recalc()"> Scenario B — Spend r% of prior month revenue</span>
+    </div>
+    <div id="budgetTableWrap"></div>
+    <div class="grid cols-3" style="margin-top:10px">
+      <div class="kpi"><div class="v" id="kSpend">–</div><div>Total Spend (24 mo)</div></div>
+      <div class="kpi"><div class="v" id="kPaid">–</div><div>Paid Users Acquired</div></div>
+      <div class="kpi"><div class="v" id="kCAC">–</div><div>Blended CAC</div></div>
+    </div>
+  </section>
+
+  <section id="blueprint" class="card">
+    <h2>Campaign Blueprint</h2>
+    <details open>
+      <summary>Account Structure & Naming</summary>
+      <ul>
+        <li><b>Segmentation:</b> Separate by persona (FREELANCER / SMB / ECOM / BOOKKEEPER), intent (BRAND / COMP / CORE), and geo (US / CA / UK / AU / DE / NL).</li>
+        <li><b>Naming:</b> <code>CCFO_[SEG]_[INTENT]_[COUNTRY]_[Lang]_[Device]_[Match]</code> (e.g., <code>CCFO_SMB_CORE_US_EN_M_MPH</code>).</li>
+        <li><b>Isolation:</b> Brand vs Non‑brand; Exact vs Broad; Search vs PMax vs Video/Display; remarketing separated by cohort (30/60/90).</li>
+        <li><b>Negatives:</b> Shared lists for “free templates”, “accountant jobs”, “manual bookkeeping”, generic “what is bookkeeping”.</li>
+      </ul>
+    </details>
+    <details>
+      <summary>Keyword Themes (illustrative)</summary>
+<pre><code>FREELANCER CORE: "simple bookkeeping app", "bookkeeping for freelancers", "self employed expenses tracker"
+SMB CORE: "quickbooks alternative", "automated bookkeeping", "receipt capture quickbooks", "ai cfo"
+ECOM CORE: "carbon accounting ecommerce", "marketplace tax compliance", "esg accounting software"
+BOOKKEEPER B2B: "bookkeeping practice automation", "client document collection whatsapp", "automate bank feeds"
+COMPETITOR: "xero carbon accounting", "quickbooks whatsapp receipts", "wave ocr alternative"</code></pre>
+      <p class="help">Use SKAG/SCAG where helpful; start Exact + Phrase; test Broad with robust negatives and value‑based bidding.</p>
+    </details>
+    <details>
+      <summary>Audience Layering</summary>
+      <ul>
+        <li>1P product events (receipt_upload, qb_connect, carbon_enabled), plan intent score from Supabase/CRM.</li>
+        <li>Custom segments: “WhatsApp bookkeeping”, “ESG carbon accounting”, “QuickBooks automation”.</li>
+        <li>In‑market: Accounting & Bookkeeping Software, Small Business Services, E‑commerce Tools.</li>
+      </ul>
+    </details>
+    <details>
+      <summary>Creative & Extensions</summary>
+      <ul>
+        <li><b>USPs:</b> WhatsApp receipt capture, &lt;500ms AI processing, integrated carbon accounting.</li>
+        <li><b>LP congruence:</b> one landing per persona; mobile‑first; proof modules (logos, ratings, case studies).</li>
+        <li><b>Extensions:</b> sitelinks (Pricing / WhatsApp / Carbon / Integrations), callouts (GDPR / &lt;500ms), snippets (Features).</li>
+        <li><b>Video:</b> 15–30s explainer; hooks on “Stop chasing receipts — message them”.</li>
+      </ul>
+    </details>
+  </section>
+
+  <section id="cro" class="card">
+    <h2>Conversion Rate Optimization</h2>
+    <div class="grid cols-2">
+      <div>
+        <h3>Landing Page Checklist (per persona)</h3>
+        <ul>
+          <li>Hero formula: <b>Problem → Value → Proof → CTA</b>. Secondary CTA for demo/video.</li>
+          <li>Mobile LCP ≤ 2.5s, CLS ≤ 0.1, TTI ≤ 3s; lazy‑load heavy media.</li>
+          <li>Social proof above the fold; security & compliance badges for EU traffic (GDPR, data residency).</li>
+          <li>Comparison blocks vs QuickBooks/Xero (no trademark misuse), highlight ESG & WhatsApp edge.</li>
+          <li>Pricing toggle monthly/annual; calculator for tax savings/time saved.</li>
+        </ul>
+      </div>
+      <div>
+        <h3>Offer & Experimentation</h3>
+        <ul>
+          <li>Trials: 14–30 days; annual ‑15% to ‑20% discount; bundle Carbon add‑on first 60 days.</li>
+          <li>Onboarding nudges: WhatsApp connect; QB integration; Carbon tooltip at upload.</li>
+          <li>A/B: headlines, hero art, social proof sequence, CTA labels, checkout friction (fields).</li>
+          <li>QS levers: Ad→LP keyword match, above‑the‑fold H1 alignment, fast mobile response.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section id="automation" class="card">
+    <h2>Automation & Scripts</h2>
+    <div class="grid cols-2">
+      <div>
+        <h3>Rules & Safeguards</h3>
+        <ul>
+          <li>Budget pacing: +15%/‑15% weekly based on CAC vs target by segment.</li>
+          <li>Sinkhole guard: pause any keyword/adset with &gt; 200 clicks, &lt; 1 trial in 7 days.</li>
+          <li>Creative fatigue: rotate after 7‑day decline &gt; 20% CTR vs prior.</li>
+          <li>QS alert: email/Slack when QS &lt; 6 for top 20% spend keywords.</li>
+        </ul>
+      </div>
+      <div>
+        <h3>Pseudocode — n‑gram Negatives</h3>
+<pre><code>// Daily: build n-gram table from queries; add negatives if ratio of non-converting clicks is high
+if (clicks(ngram) >= 80 && trials(ngram) == 0) addNegative(ngram);
+if (spend(ngram) >= 2 * targetCAC && paid(ngram) == 0) addNegative(ngram);</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <section id="measurement" class="card">
+    <h2>Measurement & Attribution</h2>
+    <div class="grid cols-2">
+      <div>
+        <h3>Event Taxonomy (GA4 + Supabase)</h3>
+<pre><code>sign_up {source, campaign, medium, geo, device}
+trial_start {plan_hint, persona, feature=whatsapp|carbon|qb}
+receipt_upload {channel, doc_type, time_to_ai_ms}
+integration_connect {type=quickbooks|gmail|drive|dropbox}
+carbon_enabled {scope=org|product, baseline_tCO2e}
+checkout_start {plan, cycle, price, coupon}
+purchase {plan, cycle, price, add_on=carbon}
+churn {plan, tenure_months, reason}</code></pre>
+      </div>
+      <div>
+        <h3>Offline Conversions</h3>
+        <ul>
+          <li>Pipe trial→paid and plan tier to ad platforms (gclid/fbclid matching).</li>
+          <li>Lead score → audience sync for remarketing; exclude paid cohorts.</li>
+          <li>Dashboards: CAC, LTV:CAC, payback by <i>segment × channel × geo</i>.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section id="ramp" class="card">
+    <h2>90‑Day Ramp (week‑by‑week)</h2>
+    <div class="grid cols-3">
+      <div>
+        <h3>Weeks 1–2</h3>
+        <ul>
+          <li>Implement tracking (GA4+Supabase), consent, offline conversion schema.</li>
+          <li>Ship 4 persona LPs + 2 feature LPs (WhatsApp, Carbon).</li>
+          <li>Launch Search (brand/core/exact) + competitor exact; build shared negatives.</li>
+          <li>Meta intro sets (Freelancer/E‑com), LI lead gen (Bookkeepers).</li>
+        </ul>
+      </div>
+      <div>
+        <h3>Weeks 3–6</h3>
+        <ul>
+          <li>Expand to PMax; scale Search phrase; enable remarketing (30/60/90).</li>
+          <li>YouTube explainer + retargeting; review sites pilot (Capterra/G2).</li>
+          <li>Automations: pacing, sinkhole guard, QS alerts; start n‑gram job.</li>
+          <li>First offer tests (trial length, annual promo, carbon bundle).</li>
+        </ul>
+      </div>
+      <div>
+        <h3>Weeks 7–12</h3>
+        <ul>
+          <li>Optimize to pLTV (value‑based bids); scale winners +15–25% weekly.</li>
+          <li>Localize FR‑CA/DE/NL LPs and campaigns as CPA targets met.</li>
+          <li>Partnerships: accountant communities; marketplace listings.</li>
+          <li>Milestones: CAC within guardrails; payback &lt; 6 months; adoption targets: WA 40%, Carbon 40%.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section id="competitors" class="card">
+    <h2>Competitor Conquest Strategy</h2>
+    <div class="grid cols-2">
+      <div>
+        <h3>Angles</h3>
+        <ul>
+          <li><b>QuickBooks:</b> “Automate the manual — WhatsApp receipts in &lt;500ms; ESG built‑in.”</li>
+          <li><b>Xero:</b> “More automation, less add‑ons — message receipts, one click to carbon.”</li>
+          <li><b>Wave:</b> “Free is costly — upgrade to AI speed and accuracy.”</li>
+        </ul>
+      </div>
+      <div>
+        <h3>Controls</h3>
+        <ul>
+          <li>Use “alternative to” language; no trademark logos on LPs.</li>
+          <li>Cap CPC bids; strict negative lists to avoid job seekers/support queries.</li>
+          <li>Rotate ads to avoid fatigue; personalized LPs per competitor term.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section id="expansion" class="card">
+    <h2>Geo Expansion & Partnerships</h2>
+    <div class="grid cols-2">
+      <div>
+        <h3>Sequence</h3>
+        <ul>
+          <li>Phase 1: US (45%), CA (15%), UK (10%).</li>
+          <li>Phase 2 (as CPA targets met): AU, DE, NL; localize copy & consent.</li>
+          <li>Languages: EN, FR‑CA, DE, NL.</li>
+        </ul>
+      </div>
+      <div>
+        <h3>Partnerships</h3>
+        <ul>
+          <li>Accountant/bookkeeper communities and influencers.</li>
+          <li>E‑commerce ecosystems; app stores; review sites (G2/Capterra).</li>
+          <li>WhatsApp Business API (click‑to‑chat onboarding).</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section id="quickwins" class="card">
+    <h2>Quick Wins</h2>
+    <ul>
+      <li>Launch brand + competitor exact with tight negatives and congruent LPs.</li>
+      <li>Ship WhatsApp receipt and Carbon LPs; showcase &lt;500ms processing proof.</li>
+      <li>Remarketing audiences (30/60/90); YouTube short explainer for adoption.</li>
+      <li>Speed & QS fixes on top ad groups; schema for reviews.</li>
+      <li>Optimize G2/Capterra profiles; solicit first case studies/testimonials.</li>
+    </ul>
+  </section>
+
+  <div class="footer">
+    <div>© CloudCFO.ai — Local interactive plan. Update assumptions and print to PDF for stakeholders.</div>
+  </div>
+</main>
+
+<script>
+/* ---------------------- Utilities ---------------------- */
+function $(id){return document.getElementById(id)}
+function num(v){return parseFloat(v)||0}
+function fmt(n,dec=0){return n.toLocaleString(undefined,{maximumFractionDigits:dec,minimumFractionDigits:dec})}
+function money(n){return '$'+fmt(n,0)}
+function clamp(n,min,max){return Math.max(min,Math.min(max,n))}
+
+/* ---------------------- Defaults ---------------------- */
+const channels = [
+  {key:'Search', cpcId:'cpcSearch', cvrId:'cvrSearch', allocId:'allocSearch', type:'high', segW:{F:0.40,S:0.35,E:0.20,B:0.05}},
+  {key:'PMax', cpcId:'cpcPmax', cvrId:'cvrPmax', allocId:'allocPmax', type:'med', segW:{F:0.40,S:0.35,E:0.20,B:0.05}},
+  {key:'Meta', cpcId:'cpcMeta', cvrId:'cvrMeta', allocId:'allocMeta', type:'social', segW:{F:0.50,S:0.20,E:0.25,B:0.05}},
+  {key:'LinkedIn', cpcId:'cpcLinkedin', cvrId:'cvrLinkedin', allocId:'allocLinkedin', type:'b2b', segW:{F:0.10,S:0.40,E:0.10,B:0.40}},
+  {key:'YouTube', cpcId:'cpcYoutube', cvrId:'cvrYoutube', allocId:'allocYoutube', type:'social', segW:{F:0.40,S:0.35,E:0.20,B:0.05}},
+  {key:'Display', cpcId:'cpcDisplay', cvrId:'cvrDisplay', allocId:'allocDisplay', type:'social', segW:{F:0.40,S:0.35,E:0.20,B:0.05}},
+  {key:'Review', cpcId:'cpcReview', cvrId:'cvrReview', allocId:'allocReview', type:'high', segW:{F:0.10,S:0.50,E:0.30,B:0.10}},
+  {key:'WhatsApp', cpcId:'cpcWA', cvrId:'cvrWA', allocId:'allocWA', type:'med', segW:{F:0.60,S:0.25,E:0.10,B:0.05}},
+]
+const segKeys=['F','S','E','B']
+
+/* ---------------------- Core Model ---------------------- */
+function getInputs(){
+  const mobileShare = clamp(num($('mobileShare').value)/100,0,1)
+  const cvrMobileFactor = 1 - 0.1*mobileShare // up to -10% CVR for heavy mobile traffic
+  const carbonAdopt = num($('carbonAdopt').value)/100
+  const gm = num($('grossMargin').value)/100
+
+  const segMix = {
+    F: num($('segMixF').value)/100,
+    S: num($('segMixS').value)/100,
+    E: num($('segMixE').value)/100,
+    B: num($('segMixB').value)/100,
+  }
+  const ltv = {
+    F: num($('ltvF').value), S: num($('ltvS').value),
+    E: num($('ltvE').value), B: num($('ltvB').value),
+  }
+  const arpuBase = {
+    F: num($('arpuF').value), S: num($('arpuS').value),
+    E: num($('arpuE').value), B: num($('arpuB').value),
+  }
+  const arpuEff = {
+    F: arpuBase.F + 20*carbonAdopt,
+    S: arpuBase.S + 20*carbonAdopt,
+    E: arpuBase.E + 20*carbonAdopt,
+    B: arpuBase.B + 20*carbonAdopt,
+  }
+  const churn = {
+    F: num($('churnF').value)/100, S: num($('churnS').value)/100,
+    E: num($('churnE').value)/100, B: num($('churnB').value)/100,
+  }
+  const trialPaid = {F:num($('tpF').value)/100,S:num($('tpS').value)/100,E:num($('tpE').value)/100,B:num($('tpB').value)/100}
+  const boosts = {
+    search: num($('boostSearch').value)/100,
+    review: num($('boostReview').value)/100,
+    li: num($('boostLI').value)/100,
+    socialPenalty: num($('penaltySocial').value)/100
+  }
+
+  // allocations must sum to ~100
+  const alloc = {}
+  let sumAlloc=0
+  channels.forEach(c=>{ alloc[c.key]= num($(c.allocId).value)/100; sumAlloc+=alloc[c.key] })
+  if(Math.abs(sumAlloc-1) > 0.0001){
+    // normalize if user changed totals
+    channels.forEach(c=> alloc[c.key] = alloc[c.key]/sumAlloc )
+  }
+
+  const cpc={}, cvr={}
+  channels.forEach(c=>{
+    cpc[c.key]= Math.max(0.01, num($(c.cpcId).value))
+    cvr[c.key]= Math.max(0, num($(c.cvrId).value)/100) * cvrMobileFactor
+  })
+
+  const baseSchedule=[num($('baseM1').value), num($('baseM2').value), num($('baseM3').value)]
+  for(let i=3;i<24;i++) baseSchedule.push(num($('baseM4_24').value))
+
+  const scenarios={
+    A: { reinvest: num($('reA').value)/100 },
+    B: { reinvest: num($('reB').value)/100 },
+  }
+  const cap = num($('cap').value)
+  const initialBudget = num($('initialBudget').value)
+
+  // Non‑paid
+  const nonpaid = {
+    orgM1: num($('orgM1').value),
+    orgGrowth: num($('orgGrowth').value)/100,
+    refK: num($('refK').value)/100,
+    partnerM3: num($('partnerM3').value),
+    partnerRamp: num($('partnerRamp').value)/100,
+    partnerStartM: 3
+  }
+
+  return {mobileShare, cvrMobileFactor, carbonAdopt, gm, segMix, ltv, arpuBase, arpuEff, churn, trialPaid, boosts, alloc, cpc, cvr, baseSchedule, scenarios, initialBudget, nonpaid, cap}
+}
+
+function channelTrialToPaid(channel, seg, trialPaid, boosts){
+  let base = trialPaid[seg]
+  if(channel==='Search') base *= (1+boosts.search)
+  if(channel==='Review') base *= (1+boosts.review)
+  if(channel==='LinkedIn') base *= (1+boosts.li)
+  if(channel==='Meta' || channel==='YouTube' || channel==='Display') base *= (1-boosts.socialPenalty)
+  return Math.max(0, Math.min(1, base))
+}
+
+function runScenario(scnKey){
+  const I = getInputs()
+  const reinvest = I.scenarios[scnKey].reinvest
+  const cap = I.cap || 40000
+  let cash = I.initialBudget
+  let cash2 = I.initialBudget // hypothetical: deduct base + reinvest
+  const months = []
+  let usersPrev={F:0,S:0,E:0,B:0}
+  let lastNewPaidTotal = 0
+  let partnerPaid = 0
+  let organicPaid = I.nonpaid.orgM1
+  let usersYTD = 0
+
+  for(let m=0;m<24;m++){
+    let baseSpend = I.baseSchedule[m]
+    let reinvestSpend = 0
+
+    // From Month 4 onward, spend a % of PRIOR month's revenue (MRR EOM), capped
+    if(m>=3){
+      const prevRevenue = months[m-1].mrrEOM || 0
+      reinvestSpend = Math.min(cap, reinvest * prevRevenue)
+    }
+
+    let spend = baseSpend + reinvestSpend
+    // Deduct from cash if base spend (cash pool), reinvest spend is self-funded
+    cash -= Math.min(cash, baseSpend)
+    // Hypothetical second cash track (deduct both base + reinvest)
+    cash2 -= (baseSpend + reinvestSpend)
+
+    let clicks=0, trials=0, paidMedia=0, mrrNew=0
+    let perSegPaid={F:0,S:0,E:0,B:0}
+    let perSegSpend={F:0,S:0,E:0,B:0}
+
+    channels.forEach(c=>{
+      const cSpend = spend * I.alloc[c.key]
+      // split spend to segments
+      segKeys.forEach(s=>{
+        const sSpend = cSpend * c.segW[s]
+        perSegSpend[s]+=sSpend
+        const sClicks = sSpend / I.cpc[c.key]
+        const sTrials = sClicks * I.cvr[c.key]
+        const tp = channelTrialToPaid(c.key, s, I.trialPaid, I.boosts)
+        const sPaid = sTrials * tp
+        const sMRR = sPaid * I.arpuEff[s]
+        clicks += sClicks; trials += sTrials; paidMedia += sPaid; mrrNew += sMRR
+        perSegPaid[s]+=sPaid
+      })
+    })
+
+    // Non‑paid loops
+    const referralPaid = I.nonpaid.refK * lastNewPaidTotal
+    lastNewPaidTotal = paidMedia + referralPaid
+
+    if(m>0){
+      organicPaid *= (1 + I.nonpaid.orgGrowth)
+    }
+    if(m === I.nonpaid.partnerStartM-1){
+      partnerPaid = I.nonpaid.partnerM3
+    } else if(m >= I.nonpaid.partnerStartM){
+      partnerPaid *= (1 + I.nonpaid.partnerRamp)
+    }
+    const npPaid = referralPaid + organicPaid + (m >= I.nonpaid.partnerStartM-1 ? partnerPaid : 0)
+
+    // distribute non‑paid to segments using mix
+    Object.keys(I.segMix).forEach(s=>{
+      const add = npPaid * I.segMix[s]
+      perSegPaid[s]+=add
+      mrrNew += add * I.arpuEff[s]
+    })
+
+    // churn and users
+    const usersEnd={}
+    let paidChurned=0
+    segKeys.forEach(s=>{
+      const retained = usersPrev[s]*(1 - I.churn[s])
+      usersEnd[s] = retained + perSegPaid[s]
+      paidChurned += usersPrev[s]-retained
+    })
+
+    const usersNewTotal = paidMedia + npPaid
+    usersYTD += usersNewTotal
+    const usersEndTotal = usersEnd.F + usersEnd.S + usersEnd.E + usersEnd.B
+    const mrrEOM = usersEnd.F*I.arpuEff.F + usersEnd.S*I.arpuEff.S + usersEnd.E*I.arpuEff.E + usersEnd.B*I.arpuEff.B
+    const pARR = 12 * mrrEOM
+    const pLTV = usersEnd.F*I.ltv.F + usersEnd.S*I.ltv.S + usersEnd.E*I.ltv.E + usersEnd.B*I.ltv.B
+
+    months.push({
+      m: m+1, spend, cashLeft:Math.max(0,cash), cash2Left:cash2, clicks, trials,
+      paidMedia, npUsers: npPaid, usersAll: usersNewTotal, usersYTD,
+      mrrNew, usersEnd, usersEndTotal, paidChurned, perSegPaid, perSegSpend,
+      referralPaid, organicPaid, partnerPaid: (m >= I.nonpaid.partnerStartM-1 ? partnerPaid : 0),
+      mrrEOM, pARR, pLTV, reinvestSpend, baseSpend, capUsed:cap
+    })
+
+    usersPrev = usersEnd
+  }
+
+  // final aggregates
+  const spendTotal = months.reduce((a,b)=>a+b.spend,0)
+  const allSourcesUsers = months.reduce((a,b)=>a+b.usersAll,0)
+  const mrrNewTotal = months.reduce((a,b)=>a+b.mrrNew,0)
+
+  // blended CAC including non‑paid users
+  const CAC = spendTotal / Math.max(1, allSourcesUsers)
+
+  // paid‑only CAC
+  const paidOnlyUsers = months.reduce((a,b)=>a+b.paidMedia,0)
+  const CACpaidOnly = spendTotal / Math.max(1, paidOnlyUsers)
+
+  // ARR based on last month ending users × ARPU (weighted)
+  const endUsers = months[months.length-1].usersEnd
+  const effArpu = getInputs().arpuEff
+  const arr = 12 * ( endUsers.F*effArpu.F + endUsers.S*effArpu.S + endUsers.E*effArpu.E + endUsers.B*effArpu.B )
+
+  // payback (months): CAC / (blended ARPU * GM)
+  const blendedARPU = (getInputs().segMix.F*effArpu.F + getInputs().segMix.S*effArpu.S + getInputs().segMix.E*effArpu.E + getInputs().segMix.B*effArpu.B)
+  const payback = CAC / Math.max(1e-6, blendedARPU * getInputs().gm)
+
+  // LTV:CAC using provided LTV weighted by mix
+  const blendedLTV = (getInputs().segMix.F*getInputs().ltv.F + getInputs().segMix.S*getInputs().ltv.S + getInputs().segMix.E*getInputs().ltv.E + getInputs().segMix.B*getInputs().ltv.B)
+  const ltvCac = blendedLTV / Math.max(1, CAC)
+
+  // guardrails by segment: max CAC = 50% LTV
+  const segGuard = {
+    F: 0.5*getInputs().ltv.F, S:0.5*getInputs().ltv.S, E:0.5*getInputs().ltv.E, B:0.5*getInputs().ltv.B
+  }
+  // segment-level CAC (approx): spend allocated to segment / total paid in that segment
+  const segSpend={F:0,S:0,E:0,B:0}, segPaid={F:0,S:0,E:0,B:0}
+  months.forEach(mm=>{
+    segKeys.forEach(s=>{
+      segSpend[s]+=mm.perSegSpend[s]
+      segPaid[s]+=mm.perSegPaid[s]
+    })
+  })
+  const segCAC={}
+  segKeys.forEach(s=> segCAC[s]= segSpend[s]/Math.max(1, segPaid[s]) )
+
+  return {months, spendTotal, paidTotal: allSourcesUsers, mrrNewTotal, CAC, CACpaidOnly, arr, payback, ltvCac, blendedARPU, segCAC, segGuard, endUsers}
+}
+
+function scenarioSelected(){
+  const radios = document.querySelectorAll('input[name="scenario"]')
+  for (const r of radios){ if(r.checked) return r.value }
+  return 'A'
+}
+
+function recalc(){
+  const scn = scenarioSelected()
+  const out = runScenario(scn)
+
+  // Update KPIs
+  $('kSpend').textContent = money(out.spendTotal)
+  $('kPaid').textContent = fmt(out.paidTotal,0) // all-sources new paid over 24 mo
+  $('kCAC').textContent = money(out.CAC)
+
+  $('projUsers').textContent = fmt(out.endUsers.F + out.endUsers.S + out.endUsers.E + out.endUsers.B,0)
+  $('projARR').textContent = money(out.arr)
+  $('projCAC').textContent = money(out.CAC)
+
+  // Feasibility text (24‑mo horizon)
+  const targetUsers = 10000
+  const targetARR = 5500000
+  const userScore = (out.endUsers.F+out.endUsers.S+out.endUsers.E+out.endUsers.B)/targetUsers
+  const arrScore = out.arr/targetARR
+  let feas='At Risk'
+  let cls='warn'
+  if(userScore>=0.9 && arrScore>=0.9){feas='Likely';cls='good'}
+  else if(userScore<0.5 || arrScore<0.5){feas='Unrealistic';cls='bad'}
+  $('sumFeasibility').className='alert '+cls
+  $('sumFeasibilityText').textContent = `${feas} under current assumptions (Users ${fmt(userScore*100,0)}% • ARR ${fmt(arrScore*100,0)}%)`
+
+  // CAC vs LTV & Payback
+  const ltvCacTxt = `LTV:CAC = ${fmt(out.ltvCac,2)} • CAC (blended) ${money(out.CAC)} • CAC (paid‑only) ${money(out.CACpaidOnly)}`
+  $('sumCACText').textContent = ltvCacTxt
+  $('sumCAC').className = 'alert ' + (out.ltvCac>=3 ? 'good' : (out.ltvCac>=1.5 ? 'warn' : 'bad'))
+
+  const blendedARPU = out.blendedARPU
+  const payTxt = `${fmt(out.payback,1)} months (target &lt; 6) • Blended ARPU ${money(blendedARPU)}`
+  $('sumPaybackText').innerHTML = payTxt
+  $('sumPayback').className = 'alert ' + (out.payback<=6 ? 'good' : (out.payback<=9 ? 'warn' : 'bad'))
+
+  // Budget table
+  const tbl = renderBudgetTable(out.months)
+  $('budgetTableWrap').innerHTML = tbl
+
+  // Top header refresh
+  $('kpiBudget').textContent = money(num($('initialBudget').value))
+
+  // Summary text
+  renderSummary(out)
+}
+
+function renderBudgetTable(months){
+  let html = `<div class="help">24‑month budget, funnel, user base progression, and non‑paid contributions. From Month 4: spend = min($40k, r × prior month revenue). Columns: <b>$ Users</b> (paid‑media only), <b>npUsers</b> (non‑paid only), <b>Users YTD</b> (all‑sources cumulative), <b>pARR</b>, <b>pLTV</b>, <b>Cash 2</b>, <b>Cash Left</b>.</div>`
+  html += `<table><thead><tr>
+  <th>Month</th><th>Spend</th><th>Clicks</th><th>Trials</th><th>$ Users</th><th>npUsers</th><th>New MRR</th><th>Users EOM</th><th>pARR</th><th>Users YTD</th><th>pLTV</th><th>Cash 2</th><th>Cash Left</th>
+  </tr></thead><tbody>`
+  months.forEach(m=>{
+    html += `<tr>
+      <td>${m.m}</td>
+      <td>${money(m.spend)}</td>
+      <td>${fmt(m.clicks,0)}</td>
+      <td>${fmt(m.trials,0)}</td>
+      <td>${fmt(m.paidMedia,0)}</td>
+      <td>${fmt(m.npUsers,0)}</td>
+      <td>${money(m.mrrNew)}</td>
+      <td>${fmt(m.usersEndTotal,0)}</td>
+      <td>${money(m.pARR)}</td>
+      <td>${fmt(m.usersYTD,0)}</td>
+      <td>${money(m.pLTV)}</td>
+      <td>${money(m.cash2Left)}</td>
+      <td>${money(m.cashLeft)}</td>
+    </tr>`
+  })
+  const spendTotal = months.reduce((a,b)=>a+b.spend,0)
+  const paidMediaTotal = months.reduce((a,b)=>a+b.paidMedia,0)
+  const npUsersTotal = months.reduce((a,b)=>a+b.npUsers,0)
+  const mrrTotal = months.reduce((a,b)=>a+b.mrrNew,0)
+  const endUsers = months[months.length-1].usersEndTotal
+  const pARRLast = months[months.length-1].pARR
+  const pLTVLast = months[months.length-1].pLTV
+  const usersYTDLast = months[months.length-1].usersYTD
+  const cash2Last = months[months.length-1].cash2Left
+  const cashLeftLast = months[months.length-1].cashLeft
+
+  html += `</tbody><tfoot><tr>
+    <td>Total</td><td>${money(spendTotal)}</td><td></td><td></td><td>${fmt(paidMediaTotal,0)}</td><td>${fmt(npUsersTotal,0)}</td><td>${money(mrrTotal)}</td><td>${fmt(endUsers,0)}</td><td>${money(pARRLast)}</td><td>${fmt(usersYTDLast,0)}</td><td>${money(pLTVLast)}</td><td>${money(cash2Last)}</td><td>${money(cashLeftLast)}</td>
+  </tr></tfoot></table>`
+
+  // Segment CAC vs Guardrails
+  const scn = scenarioSelected()
+  const out = runScenario(scn)
+  html += `<div class="separator"></div><h3>Segment CAC vs Guardrails</h3>`
+  html += `<table><thead><tr><th>Segment</th><th>CAC (approx)</th><th>Max Allowed (50% LTV)</th><th>Status</th></tr></thead><tbody>`
+  const labels={F:'Freelancers',S:'SMB',E:'E‑commerce',B:'Bookkeepers'}
+  for(const k of ['F','S','E','B']){
+    const cac = out.segCAC[k], cap = out.segGuard[k]
+    const ok = cac<=cap
+    html += `<tr><td>${labels[k]}</td><td>${money(cac)}</td><td>${money(cap)}</td><td><span class="badge" style="border-color:${ok?'rgba(16,185,129,.4)':'rgba(239,68,68,.4)'}">${ok?'OK':'Exceeds cap'}</span></td></tr>`
+  }
+  html += `</tbody></table>`
+
+  return html
+}
+
+function resetDefaults(){
+  document.querySelectorAll('input[type=number]').forEach(inp=>{
+    if(inp.hasAttribute('value')) inp.value = inp.getAttribute('value')
+  })
+  document.querySelector('input[name="scenario"][value="A"]').checked = true
+  recalc()
+}
+
+function makeCSV(rows){
+  return rows.map(r=>r.map(v=>{
+    if(typeof v==='string'){
+      const s = v.replaceAll('"','""')
+      return `"${s}"`
+    }else{
+      return String(v)
+    }
+  }).join(',')).join('\\n')
+}
+
+function downloadCSV(){
+  const scn = scenarioSelected()
+  const out = runScenario(scn)
+  const rows=[['Month','Spend','Clicks','Trials','$Users','npUsers','NewMRR','UsersEOM','pARR','UsersYTD','pLTV','Cash2','CashLeft']]
+  out.months.forEach(m=> rows.push([
+    m.m, m.spend.toFixed(2), Math.round(m.clicks), Math.round(m.trials),
+    Math.round(m.paidMedia), Math.round(m.npUsers), m.mrrNew.toFixed(2),
+    Math.round(m.usersEndTotal), m.pARR.toFixed(2), Math.round(m.usersYTD),
+    m.pLTV.toFixed(2), m.cash2Left.toFixed(2), m.cashLeft.toFixed(2)
+  ]) )
+  const last = out.months[out.months.length-1]
+  rows.push(['TOTAL', out.spendTotal.toFixed(2),'','', Math.round(out.months.reduce((a,b)=>a+b.paidMedia,0)), Math.round(out.months.reduce((a,b)=>a+b.npUsers,0)), out.mrrNewTotal.toFixed(2), Math.round(last.usersEndTotal), last.pARR.toFixed(2), Math.round(last.usersYTD), last.pLTV.toFixed(2), last.cash2Left.toFixed(2), last.cashLeft.toFixed(2)])
+  const csv = makeCSV(rows)
+  const blob = new Blob([csv],{type:'text/csv;charset=utf-8;'})
+  const url = URL.createObjectURL(blob)
+  const a = document.createElement('a')
+  a.href = url
+  a.download = 'cloudcfo_plan_24mo_v8_scenario_'+scn+'.csv'
+  a.click()
+  URL.revokeObjectURL(url)
+}
+
+function downloadConfig(){
+  const cfg = getInputs()
+  const blob = new Blob([JSON.stringify(cfg,null,2)],{type:'application/json'})
+  const url = URL.createObjectURL(blob)
+  const a = document.createElement('a')
+  a.href = url
+  a.download = 'cloudcfo_plan_config_v8.json'
+  a.click()
+  URL.revokeObjectURL(url)
+}
+
+function renderSummary(out){
+  const totalUsers = out.endUsers.F + out.endUsers.S + out.endUsers.E + out.endUsers.B
+  const userScore = totalUsers / 10000
+  const arrScore = out.arr / 5500000
+  const paidOnlyText = `CAC (paid‑only): ${money(out.CACpaidOnly)}.`
+  const blendedText = `Blended CAC: ${money(out.CAC)}; Payback: ${fmt(out.payback,1)} months; LTV:CAC: ${fmt(out.ltvCac,2)}.`
+
+  const np = runScenario(scenarioSelected()).months.reduce((a,b)=>a+b.npUsers,0)
+  const all = out.paidTotal
+  const npShare = (np/Math.max(1, all))*100
+
+  const html = `
+  <div class="grid cols-3">
+    <div class="stat"><b>${fmt(totalUsers,0)}</b> users projected at 24 months (${fmt(userScore*100,0)}% of goal)</div>
+    <div class="stat"><b>${money(out.arr)}</b> projected ARR (${fmt(arrScore*100,0)}% of target)</div>
+    <div class="stat"><b>${money(out.spendTotal)}</b> total paid media spend (24 months)</div>
+  </div>
+  <div class="separator"></div>
+  <p>
+    From Month 4, spend is tied to revenues: <b>r%</b> of prior month MRR (capped at $40k). Non‑paid loops (organic, referrals, partnerships) complement paid acquisition. With the current CVRs and a 25% Trial→Paid baseline, non‑paid contributes ~<b>${fmt(npShare,0)}%</b> early; paid‑media users are shown in <b>$ Users</b>, non‑paid in <b>npUsers</b>. ${paidOnlyText} ${blendedText}
+  </p>
+  <ul>
+    <li><b>Base schedule:</b> $10k (M1), $6k (M2), $4k (M3); Months 4–24 per r% of prior revenue (cap).</li>
+    <li><b>ARPU baseline (monthly):</b> F $20, SMB $42, E‑com $52, Bookkeepers $95; Carbon adoption <b>${fmt(getInputs().carbonAdopt*100,0)}%</b>.</li>
+    <li><b>Trial→Paid baseline:</b> all segments <b>25%</b>; channel effects default 0.</li>
+    <li><b>Guardrails:</b> LTV:CAC ≥ 3:1, CAC ≤ 50% of segment LTV, Payback &lt; 6 months.</li>
+  </ul>`
+
+  $('summaryText').innerHTML = html
+}
+
+// initial
+window.addEventListener('load', recalc)
+</script>
+</body>
+</html>
